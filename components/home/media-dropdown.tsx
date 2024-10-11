@@ -19,8 +19,8 @@ const MediaDropdown = () => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
-	// const sendImage = useMutation(api.messages.sendImage);
-	// const sendVideo = useMutation(api.messages.sendVideo);
+	const sendImage = useMutation(api.messages.sendImage);
+	const sendVideo = useMutation(api.messages.sendVideo);
 	const me = useQuery(api.users.getMe);
 
 	const { selectedConversation } = useConversationStore();
@@ -39,11 +39,11 @@ const MediaDropdown = () => {
 
 			const { storageId } = await result.json();
 			// Step 3: Save the newly allocated storage id to the database
-			// await sendImage({
-			// 	conversation: selectedConversation!._id,
-			// 	imgId: storageId,
-			// 	sender: me!._id,
-			// });
+			await sendImage({
+				conversation: selectedConversation!._id,
+				imgId: storageId,
+				sender: me!._id,
+			});
 
 			setSelectedImage(null);
 		} catch (err) {
@@ -65,11 +65,11 @@ const MediaDropdown = () => {
 
 			const { storageId } = await result.json();
 
-			// await sendVideo({
-			// 	videoId: storageId,
-			// 	conversation: selectedConversation!._id,
-			// 	sender: me!._id,
-			// });
+			await sendVideo({
+				videoId: storageId,
+				conversation: selectedConversation!._id,
+				sender: me!._id,
+			});
 
 			setSelectedVideo(null);
 		} catch (error) {

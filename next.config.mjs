@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {};
-
-export default nextConfig;
+const nextConfig = {
+    images: {
+      domains: ['benevolent-raven-674.convex.cloud'],
+    },
+  }
+  
+  export default nextConfig;
+  
