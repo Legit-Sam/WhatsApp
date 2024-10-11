@@ -23,6 +23,7 @@ export default function RootLayout({
 				<ThemeProvider attribute='class' defaultTheme='system' enableSystem disableTransitionOnChange>
 					<ConvexClientProvider>
 						{children}
+						
 					</ConvexClientProvider>
 				</ThemeProvider>
 			</body>
