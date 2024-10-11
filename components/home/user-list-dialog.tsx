@@ -1,4 +1,3 @@
-    "use client"
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -13,10 +12,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { ImageIcon, MessageSquareDiff } from "lucide-react";;
-import { Id } from "@/convex/_generated/dataModel";
+import { ImageIcon, MessageSquareDiff } from "lucide-react";
 import { useMutation, useQuery } from "convex/react";
+import toast from "react-hot-toast";
 import { api } from "@/convex/_generated/api";
+import { useConversationStore } from "@/app/store/chatStore";
+import { Id } from "@/convex/_generated/dataModel";
 
 
 const UserListDialog = () => {
@@ -25,27 +26,30 @@ const UserListDialog = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [selectedImage, setSelectedImage] = useState<File | null>(null);
 	const [renderedImage, setRenderedImage] = useState("");
+
 	const imgRef = useRef<HTMLInputElement>(null);
-	const diaologCloseRef = useRef<HTMLButtonElement>(null);
+	const dialogCloseRef = useRef<HTMLButtonElement>(null);
+
 	const createConversation = useMutation(api.conversations.createConversation);
 	const generateUploadUrl = useMutation(api.conversations.generateUploadUrl);
 	const me = useQuery(api.users.getMe);
 	const users = useQuery(api.users.getUsers);
 
-	const handleCreateConversations = async () => {
-		if(selectedUsers.length === 0) return;
-		setIsLoading(true)
+	const { setSelectedConversation } = useConversationStore();
+
+	const handleCreateConversation = async () => {
+		if (selectedUsers.length === 0) return;
+		setIsLoading(true);
 		try {
 			const isGroup = selectedUsers.length > 1;
-			let conversationId;
 
-			if(!isGroup){
+			let conversationId;
+			if (!isGroup) {
 				conversationId = await createConversation({
 					participants: [...selectedUsers, me?._id!],
-					isGroup: false
+					isGroup: false,
 				});
-
-			}else{
+			} else {
 				const postUrl = await generateUploadUrl();
 
 				const result = await fetch(postUrl, {
@@ -63,29 +67,38 @@ const UserListDialog = () => {
 					groupName,
 					groupImage: storageId,
 				});
-
 			}
-			diaologCloseRef.current?.click();
+
+			dialogCloseRef.current?.click();
 			setSelectedUsers([]);
 			setGroupName("");
 			setSelectedImage(null);
 
-			
-			
-		} catch (error) {
-			// toast.error("Failed to create conversation");
-			console.error(error)
-		}finally{ 
-			setIsLoading(false)
+			// TODO => Update a global state called "selectedConversation"
+			const conversationName = isGroup ? groupName : users?.find((user) => user._id === selectedUsers[0])?.name;
+
+			setSelectedConversation({
+				_id: conversationId,
+				participants: selectedUsers,
+				isGroup,
+				image: isGroup ? renderedImage : users?.find((user) => user._id === selectedUsers[0])?.image,
+				name: conversationName,
+				admin: me?._id!,
+			});
+		} catch (err) {
+			toast.error("Failed to create conversation");
+			console.error(err);
+		} finally {
+			setIsLoading(false);
 		}
-	}
+	};
 
 	useEffect(() => {
-		if(!selectedImage) return setRenderedImage('')
-			const reader = new FileReader();
+		if (!selectedImage) return setRenderedImage("");
+		const reader = new FileReader();
 		reader.onload = (e) => setRenderedImage(e.target?.result as string);
-		reader.readAsDataURL(selectedImage)
-	},[selectedImage])
+		reader.readAsDataURL(selectedImage);
+	}, [selectedImage]);
 
 	return (
 		<Dialog>
@@ -94,7 +107,8 @@ const UserListDialog = () => {
 			</DialogTrigger>
 			<DialogContent>
 				<DialogHeader>
-			<DialogClose ref={diaologCloseRef}/> 
+					{/* TODO: <DialogClose /> will be here */}
+					<DialogClose ref={dialogCloseRef} />
 					<DialogTitle>USERS</DialogTitle>
 				</DialogHeader>
 
@@ -104,7 +118,8 @@ const UserListDialog = () => {
 						<Image src={renderedImage} fill alt='user image' className='rounded-full object-cover' />
 					</div>
 				)}
-                <input
+				{/* TODO: input file */}
+				<input
 					type='file'
 					accept='image/*'
 					ref={imgRef}
@@ -161,7 +176,7 @@ const UserListDialog = () => {
 				<div className='flex justify-between'>
 					<Button variant={"outline"}>Cancel</Button>
 					<Button
-					onClick={handleCreateConversations}
+						onClick={handleCreateConversation}
 						disabled={selectedUsers.length === 0 || (selectedUsers.length > 1 && !groupName) || isLoading}
 					>
 						{/* spinner */}
