@@ -12,8 +12,8 @@ import { IMessage, useConversationStore } from "@/app/store/chatStore";
 
 type ChatBubbleProps = {
 	message: IMessage;
-	// @ts-ignore
-	me: any;
+	//@ts-expect-error
+	me: User;
 	previousMessage?: IMessage;
 };
 

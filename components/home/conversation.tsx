@@ -7,7 +7,8 @@ import { api } from "@/convex/_generated/api";
 import { useConversationStore } from "@/app/store/chatStore";
 
 
-const Conversation = ({ conversation }: { conversation: any }) => {
+//@ts-expect-error
+const Conversation = ({ conversation }: { conversation: Conversation }) => {
 	const conversationImage = conversation.groupImage || conversation.image;
 	const conversationName = conversation.groupName || conversation.name;
 	const lastMessage = conversation.lastMessage;

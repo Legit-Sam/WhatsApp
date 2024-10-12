@@ -1,9 +1,8 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
 
-// InputProps interface extends React's input attributes for custom input properties
+
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  // You can add additional custom props here if needed
 }
 
 // Forward ref to the input element for better integration with React
