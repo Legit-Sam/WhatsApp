@@ -5,9 +5,17 @@ import React from "react";
 import { IMessage, useConversationStore } from "@/app/store/chatStore";
 import { api } from "@/convex/_generated/api";
 
+interface User {
+	_id: string;
+	name: string;
+	isOnline: boolean;
+	image: string; // Add other properties as needed
+}
+// @ts-ignore
 type ChatAvatarActionsProps = {
 	message: IMessage;
-	me: any;
+    // @ts-ignore
+	me: any ; // Specify the User type here
 };
 
 const ChatAvatarActions = ({ me, message }: ChatAvatarActionsProps) => {
@@ -34,6 +42,7 @@ const ChatAvatarActions = ({ me, message }: ChatAvatarActionsProps) => {
 				participants: selectedConversation.participants.filter((id) => id !== message.sender._id),
 			});
 		} catch (error) {
+			console.error(error); // Log the error
 			toast.error("Failed to kick user");
 		}
 	};
@@ -56,6 +65,7 @@ const ChatAvatarActions = ({ me, message }: ChatAvatarActionsProps) => {
 				image: message.sender.image,
 			});
 		} catch (error) {
+			console.error(error); // Log the error
 			toast.error("Failed to create conversation");
 		}
 	};

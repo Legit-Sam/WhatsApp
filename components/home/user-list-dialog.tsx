@@ -19,7 +19,6 @@ import { api } from "@/convex/_generated/api";
 import { useConversationStore } from "@/app/store/chatStore";
 import { Id } from "@/convex/_generated/dataModel";
 
-
 const UserListDialog = () => {
 	const [selectedUsers, setSelectedUsers] = useState<Id<"users">[]>([]);
 	const [groupName, setGroupName] = useState("");
