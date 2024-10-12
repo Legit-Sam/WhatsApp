@@ -20,14 +20,19 @@ const MessageContainer = () => {
 
 	return (
 		<div className='relative p-3 flex-1 overflow-auto h-full bg-chat-tile-light dark:bg-chat-tile-dark'>
-			<div className='mx-12 flex flex-col gap-3'>
+			<div className='flex flex-col gap-3 w-full'>
 				{messages?.map((msg, idx) => (
-					<div key={msg._id} ref={lastMessageRef}>
-						<ChatBubble message={msg} me={me} previousMessage={idx > 0 ? messages[idx - 1] : undefined} />
+					<div key={msg._id} ref={lastMessageRef} className='w-full'>
+						<ChatBubble
+							message={msg}
+							me={me}
+							previousMessage={idx > 0 ? messages[idx - 1] : undefined}
+						/>
 					</div>
 				))}
 			</div>
 		</div>
 	);
 };
+
 export default MessageContainer;

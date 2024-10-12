@@ -50,13 +50,15 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 		return (
 			<>
 				<DateIndicator message={message} previousMessage={previousMessage} />
-				<div className='flex gap-1 w-2/3'>
+				<div className='flex gap-10 w-full py-3'>
 					<ChatBubbleAvatar isGroup={isGroup} isMember={isMember} message={message} fromAI={fromAI} />
-					<div className={`flex flex-col z-20 max-w-fit px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
+					<div className={`flex flex-col z-20  xl:w-[50%] md:w-[80%] mb-10 px-2 pt-1 rounded-md shadow-md relative ${bgClass}`}>
 						{!fromAI && <OtherMessageIndicator />}
 						{fromAI && <Bot size={16} className='absolute bottom-[2px] left-2' />}
 						{<ChatAvatarActions message={message} me={me} />}
-						{renderMessageContent()}
+						<div className="max-w-[300px] text-start break-words overflow-hidden">
+ 						 {renderMessageContent()}
+						</div>
 						{open && <ImageDialog src={message.content} open={open} onClose={() => setOpen(false)} />}
 						<MessageTime time={time} fromMe={fromMe} />
 					</div>
@@ -69,12 +71,22 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 		<>
 			<DateIndicator message={message} previousMessage={previousMessage} />
 
-			<div className='flex gap-1 w-2/3 ml-auto'>
-				<div className={`flex  z-20 max-w-fit px-2 pt-1 rounded-md shadow-md ml-auto relative ${bgClass}`}>
+			<div className='flex gap-1 w-full py-3'>
+			<div
+  		className={`flex z-20 xl:w-[50%] md:w-[80%] px-2 pt-1 rounded-md shadow-md ml-auto relative overflow-hidden ${bgClass}`}>
 					<SelfMessageIndicator />
-					{renderMessageContent()}
+		
+					<div className="max-w-[300px] text-start break-words overflow-hidden">
+ 					 {renderMessageContent()}
+						</div>
+
 					{open && <ImageDialog src={message.content} open={open} onClose={() => setOpen(false)} />}
-					<MessageTime time={time} fromMe={fromMe} />
+					<div
+  className={`flex justify-end relative mt-2 xl:absolute xl:bottom-1 xl:right-2`}
+>
+    					<MessageTime time={time} fromMe={fromMe} />
+						</div>
+
 				</div>
 			</div>
 		</>
