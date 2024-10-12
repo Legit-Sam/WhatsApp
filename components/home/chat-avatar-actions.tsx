@@ -5,16 +5,16 @@ import React from "react";
 import { IMessage, useConversationStore } from "@/app/store/chatStore";
 import { api } from "@/convex/_generated/api";
 
-interface User {
-	_id: string;
-	name: string;
-	isOnline: boolean;
-	image: string; // Add other properties as needed
-}
-// @ts-ignore
+// interface User {
+// 	_id: string;
+// 	name: string;
+// 	isOnline: boolean;
+// 	image: string; // Add other properties as needed
+// }
+  // @ts-except-error
 type ChatAvatarActionsProps = {
 	message: IMessage;
-    // @ts-ignore
+    // @ts-except-error
 	me: any ; // Specify the User type here
 };
 
