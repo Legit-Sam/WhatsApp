@@ -12,7 +12,7 @@ import { IMessage, useConversationStore } from "@/app/store/chatStore";
 
 type ChatBubbleProps = {
 	message: IMessage;
-	//@ts-expect-error
+	// @ts-expect-error: Temporarily disabling this until types are fixed.
 	me: User;
 	previousMessage?: IMessage;
 };

@@ -7,7 +7,7 @@ import { api } from "@/convex/_generated/api";
 import { useConversationStore } from "@/app/store/chatStore";
 
 
-//@ts-expect-error
+// @ts-expect-error: Temporarily disabling this until types are fixed.
 const Conversation = ({ conversation }: { conversation: Conversation }) => {
 	const conversationImage = conversation.groupImage || conversation.image;
 	const conversationName = conversation.groupName || conversation.name;

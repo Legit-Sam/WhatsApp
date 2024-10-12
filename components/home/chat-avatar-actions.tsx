@@ -9,7 +9,7 @@ import { api } from "@/convex/_generated/api";
 
 type ChatAvatarActionsProps = {
 	message: IMessage;
-	//@ts-expect-error
+	// @ts-expect-error: Temporarily disabling this until types are fixed.
 	me: User ; // Specify the User type here
 };
 

@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogDescription } from "../ui/dialog";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import ReactPlayer from "react-player";
-import toast from "react-hot-toast";
+// import toast from "react-hot-toast";
 import { useMutation, useQuery } from "convex/react";
 import { useConversationStore } from "@/app/store/chatStore";
 import { api } from "@/convex/_generated/api";
@@ -47,7 +47,7 @@ const MediaDropdown = () => {
 
 			setSelectedImage(null);
 		} catch (error) {
-			toast.error("Failed to send image");
+			console.error("Failed to send image");
 		} finally {
 			setIsLoading(false);
 		}
