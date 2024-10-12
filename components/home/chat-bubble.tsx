@@ -29,7 +29,7 @@ const ChatBubble = ({ me, message, previousMessage }: ChatBubbleProps) => {
 	const fromAI = message.sender?.name === "ChatGPT";
 	const bgClass = fromMe ? "bg-green-chat" : !fromAI ? "bg-white dark:bg-gray-primary" : "bg-blue-500 text-white";
 
-	console.log(message.sender);
+	// console.log(message.sender);
 	const [open, setOpen] = useState(false);
 
 	const renderMessageContent = () => {
